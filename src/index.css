@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Junge", "Times New Roman", serif;
+  --font-mono: "Fragment Mono", ui-monospace, monospace;
+
+  --color-bg: var(--fec-bg);
+  --color-bg-elevated: var(--fec-bg-elevated);
+  --color-bg-panel: var(--fec-bg-panel);
+  --color-line: var(--fec-line);
+  --color-line-strong: var(--fec-line-strong);
+  --color-text: var(--fec-text);
+  --color-muted: var(--fec-muted);
+  --color-soft: var(--fec-soft);
+  --color-live: var(--fec-live);
+  --color-accent: var(--fec-accent);
+  --color-danger: var(--fec-danger);
+  --color-warn: var(--fec-warn);
+  --color-kalshi: var(--fec-kalshi);
+  --color-poly: var(--fec-poly);
+}
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --fec-bg: #171717;
+  --fec-bg-elevated: #1c1c1c;
+  --fec-bg-panel: #202020;
+  --fec-line: #2a2a2a;
+  --fec-line-strong: #3a3a3a;
+  --fec-text: #ffffff;
+  --fec-muted: rgba(255, 255, 255, 0.55);
+  --fec-soft: rgba(255, 255, 255, 0.85);
+  --fec-live: #21d900;
+  --fec-accent: #3d8bfd;
+  --fec-danger: #ff5c5c;
+  --fec-warn: #f0b429;
+  --fec-glow: rgba(33, 217, 0, 0.06);
+  --fec-dot: rgba(255, 255, 255, 0.1);
+  --fec-hover: rgba(255, 255, 255, 0.03);
+  --fec-hover-strong: rgba(255, 255, 255, 0.06);
+  --fec-kalshi: #5b9dff;
+  --fec-poly: #b59bff;
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.18);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(ellipse 70% 45% at 50% -8%, var(--fec-glow), transparent 55%),
+      radial-gradient(circle, var(--fec-dot) 0.55px, transparent 0.65px);
+    background-size: auto, 22px 22px;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  * {
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::selection {
+    background: rgba(33, 217, 0, 0.25);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  em {
+    font-style: italic;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .fec-panel {
+    background: color-mix(in srgb, var(--color-bg-panel) 88%, transparent);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(10px);
+  }
+
+  .fec-panel-solid {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-line);
+  }
+
+  .fec-input {
+    width: 100%;
+    background: #141414;
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-text);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    outline: none;
+    font-size: 0.875rem;
+  }
+  .fec-input:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
+  .fec-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      transform 120ms ease,
+      background 120ms ease,
+      border-color 120ms ease;
+    letter-spacing: -0.01em;
+  }
+  .fec-btn:active {
+    transform: translateY(1px);
+  }
+  .fec-btn-primary {
+    background: rgba(255, 255, 255, 0.92);
+    color: #111;
+  }
+  .fec-btn-primary:hover {
+    background: #fff;
+  }
+  .fec-btn-ghost {
+    background: transparent;
+    border-color: var(--color-line-strong);
+    color: var(--color-soft);
+  }
+  .fec-btn-ghost:hover {
+    background: var(--fec-hover);
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.7rem 0.7rem 0.7rem 1.35rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: #111;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    letter-spacing: -0.02em;
+  }
+  .hero-cta-orb {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .venue-kalshi {
+    color: var(--color-kalshi);
+    background: color-mix(in srgb, var(--color-kalshi) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-kalshi) 30%, transparent);
+  }
+  .venue-poly {
+    color: var(--color-poly);
+    background: color-mix(in srgb, var(--color-poly) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-poly) 30%, transparent);
+  }
+
+  .signal-mask {
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 35%, transparent 78%);
+  }
+
+  .hero-atmosphere {
+    mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+  }
+
+  .ticker-tape {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+    backdrop-filter: blur(10px);
+    padding: 0.7rem 1.25rem;
+    overflow: hidden;
+  }
+  .ticker-track {
+    display: flex;
+    overflow: hidden;
+    flex: 1;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .ticker-track-inner {
+    display: flex;
+    gap: 1.75rem;
+    padding-right: 1.75rem;
+    animation: ticker-scroll 36s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .shell-pad {
+    width: min(1120px, calc(100% - 2rem));
+    margin-inline: auto;
+  }
+}
