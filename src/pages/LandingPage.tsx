@@ -1,15 +1,14 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, GitCompareArrows, Radio, Shield, Sparkles } from 'lucide-react';
 import {
+  getFeedHealth,
+  listMarkets,
   formatVolume,
   type FeedHealth,
   type MarketSummary,
 } from '../lib/api';
-// === LANDING_ONLY: restore live backend data — uncomment below ===
-// import { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { getFeedHealth, listMarkets, formatVolume, type FeedHealth, type MarketSummary } from '../lib/api';
-// === /LANDING_ONLY ===
 import { AppHeader, CategoryChip, SiteFooter, VenueChip } from '../components/Layout';
 import { GlowRibbons } from '../components/GlowRibbons';
 import { TickerTape } from '../components/TickerTape';
@@ -39,88 +38,24 @@ const STEPS = [
   },
 ];
 
-/** Static demo inventory for landing-only hosting (no backend). */
-const DEMO_PREVIEW: MarketSummary[] = [
-  {
-    id: 'demo-1',
-    venue: 'polymarket',
-    externalId: 'demo-1',
-    title: 'Will the Fed cut rates at the next FOMC meeting?',
-    category: 'rates',
-    yesPrice: 0.62,
-    volume: 4_200_000,
-    liquidity: 180_000,
-    url: 'https://polymarket.com',
-  },
-  {
-    id: 'demo-2',
-    venue: 'kalshi',
-    externalId: 'demo-2',
-    title: 'US CPI above 3% this print?',
-    category: 'macro',
-    yesPrice: 0.41,
-    volume: 890_000,
-    liquidity: 95_000,
-    url: 'https://kalshi.com',
-  },
-  {
-    id: 'demo-3',
-    venue: 'polymarket',
-    externalId: 'demo-3',
-    title: 'US recession by end of 2026?',
-    category: 'macro',
-    yesPrice: 0.18,
-    volume: 2_100_000,
-    liquidity: 120_000,
-    url: 'https://polymarket.com',
-  },
-  {
-    id: 'demo-4',
-    venue: 'kalshi',
-    externalId: 'demo-4',
-    title: 'S&P 500 range this week',
-    category: 'equities',
-    yesPrice: 0.55,
-    volume: 640_000,
-    liquidity: 70_000,
-    url: 'https://kalshi.com',
-  },
-  {
-    id: 'demo-5',
-    venue: 'polymarket',
-    externalId: 'demo-5',
-    title: 'Crude oil above $80 by quarter end?',
-    category: 'energy',
-    yesPrice: 0.37,
-    volume: 510_000,
-    liquidity: 55_000,
-    url: 'https://polymarket.com',
-  },
-];
-
-const DEMO_FEEDS: FeedHealth[] = [
-  { name: 'kalshi', enabled: true, lastSuccessAt: new Date().toISOString(), lastCount: 24 },
-  { name: 'polymarket', enabled: true, lastSuccessAt: new Date().toISOString(), lastCount: 32 },
-];
-
 export function LandingPage() {
-  // === LANDING_ONLY: static demo data (no backend). To restore live feeds:
-  // const [feeds, setFeeds] = useState<FeedHealth[]>([]);
-  // const [preview, setPreview] = useState<MarketSummary[]>([]);
-  // useEffect(() => {
-  //   void getFeedHealth().then((r) => setFeeds(r.feeds)).catch(() => setFeeds([]));
-  //   void listMarkets({ limit: 16 }).then((r) => setPreview(r.markets)).catch(() => setPreview([]));
-  // }, []);
-  // === /LANDING_ONLY ===
-  const feeds = DEMO_FEEDS;
-  const preview = DEMO_PREVIEW;
+  const [feeds, setFeeds] = useState<FeedHealth[]>([]);
+  const [preview, setPreview] = useState<MarketSummary[]>([]);
+
+  useEffect(() => {
+    void getFeedHealth()
+      .then((r) => setFeeds(r.feeds))
+      .catch(() => setFeeds([]));
+    void listMarkets({ limit: 16 })
+      .then((r) => setPreview(r.markets))
+      .catch(() => setPreview([]));
+  }, []);
 
   const featured = preview.slice(0, 3);
   const spotlight = preview[0];
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden">
-      {/* Hero */}
       <section className="relative flex min-h-dvh flex-col overflow-hidden">
         <GlowRibbons intensity="hero" />
         <AppHeader feeds={feeds} />
@@ -154,17 +89,16 @@ export function LandingPage() {
             transition={{ delay: 0.25, duration: 0.45, ease: easeOut }}
             className="mt-10 flex flex-wrap items-center justify-center gap-3"
           >
-            {/* === LANDING_ONLY: restore <Link to="/inventory"> … </Link> — using #how for showcase === */}
-            <a href="#how">
+            <Link to="/inventory">
               <motion.span className="hero-cta" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.985 }}>
-                See how it works
+                Enter inventory
                 <span className="hero-cta-orb">
                   <ArrowRight size={14} strokeWidth={2.2} />
                 </span>
               </motion.span>
-            </a>
-            <a href="#pulse" className="fec-btn fec-btn-ghost">
-              View pulse
+            </Link>
+            <a href="#how" className="fec-btn fec-btn-ghost">
+              How it works
             </a>
           </motion.div>
         </main>
@@ -174,7 +108,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* How it works */}
       <section id="how" className="relative border-t border-line py-20 md:py-28">
         <div className="shell-pad">
           <motion.div {...fadeUp} className="mb-12 max-w-xl">
@@ -208,7 +141,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Venues */}
       <section id="venues" className="relative border-t border-line py-20 md:py-28">
         <div className="shell-pad grid items-center gap-10 lg:grid-cols-2">
           <motion.div {...fadeUp}>
@@ -257,7 +189,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Live pulse / featured (demo data while landing-only) */}
       <section id="pulse" className="relative border-t border-line py-20 md:py-28">
         <div className="shell-pad">
           <motion.div {...fadeUp} className="mb-10 flex flex-wrap items-end justify-between gap-4">
@@ -269,10 +200,9 @@ export function LandingPage() {
                 What is in inventory
               </h2>
             </div>
-            {/* === LANDING_ONLY: restore <Link to="/inventory">View inventory</Link> === */}
-            <a href="#how" className="fec-btn fec-btn-ghost">
-              How it works <ArrowRight size={14} />
-            </a>
+            <Link to="/inventory" className="fec-btn fec-btn-ghost">
+              View inventory <ArrowRight size={14} />
+            </Link>
           </motion.div>
 
           {spotlight ? (
@@ -293,16 +223,13 @@ export function LandingPage() {
                     <h3 className="text-[22px] font-semibold leading-snug tracking-[-0.02em] text-text md:text-[28px]">
                       {spotlight.title}
                     </h3>
-                    {/* === LANDING_ONLY: restore Link to={`/inventory/${spotlight.id}`} === */}
-                    <a
-                      href={spotlight.url}
-                      target="_blank"
-                      rel="noreferrer"
+                    {/* LIST_ONLY: detail off — use inventory list CTA instead */}
+                    <Link
+                      to="/inventory"
                       className="mt-5 inline-flex items-center gap-2 text-[13px] text-muted hover:text-text"
                     >
-                      View on {spotlight.venue === 'kalshi' ? 'Kalshi' : 'Polymarket'}{' '}
-                      <ArrowRight size={13} />
-                    </a>
+                      View in inventory <ArrowRight size={13} />
+                    </Link>
                   </div>
                   <ProbRing value={spotlight.yesPrice} size={120} />
                 </div>
@@ -317,13 +244,8 @@ export function LandingPage() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 * i, duration: 0.4, ease: easeOut }}
                   >
-                    {/* === LANDING_ONLY: restore Link to={`/inventory/${m.id}`} wrapping this card === */}
-                    <a
-                      href={m.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="fec-panel-solid flex items-center gap-4 rounded-2xl p-4 transition hover:border-line-strong"
-                    >
+                    {/* LIST_ONLY: no detail link */}
+                    <div className="fec-panel-solid flex items-center gap-4 rounded-2xl p-4">
                       <ProbRing value={m.yesPrice} size={72} />
                       <div className="min-w-0 flex-1">
                         <div className="mb-1.5 flex flex-wrap gap-1.5">
@@ -334,20 +256,24 @@ export function LandingPage() {
                           {m.title}
                         </p>
                       </div>
-                    </a>
+                    </div>
                   </motion.div>
                 ))}
+                {featured.length < 2 && (
+                  <div className="fec-panel rounded-2xl border-dashed px-4 py-10 text-center text-[13px] text-muted">
+                    Waiting for more live contracts…
+                  </div>
+                )}
               </div>
             </div>
           ) : (
             <div className="fec-panel rounded-2xl border-dashed px-6 py-16 text-center text-muted">
-              Demo pulse unavailable.
+              Feeds warming. Finance contracts will appear here once ingest completes.
             </div>
           )}
         </div>
       </section>
 
-      {/* Final CTA */}
       <section className="relative border-t border-line py-20 md:py-24">
         <motion.div
           {...fadeUp}
@@ -356,20 +282,19 @@ export function LandingPage() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(33,217,0,0.08),transparent_65%)]" />
           <div className="relative z-[1]">
             <h2 className="font-display text-[36px] tracking-tight text-text md:text-[48px]">
-              Financial events, pooled
+              Enter inventory
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[15px] text-muted">
-              Kalshi and Polymarket finance contracts in one read-only hub. Inventory comes next.
+              Browse finance contracts from Kalshi and Polymarket. Filter by venue or category, compare across books.
             </p>
-            {/* === LANDING_ONLY: restore Link to="/inventory" Open inventory CTA === */}
-            <a href="#pulse" className="mt-8 inline-flex">
+            <Link to="/inventory" className="mt-8 inline-flex">
               <motion.span className="hero-cta" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.985 }}>
-                See the pulse
+                Open inventory
                 <span className="hero-cta-orb">
                   <ArrowRight size={14} strokeWidth={2.2} />
                 </span>
               </motion.span>
-            </a>
+            </Link>
           </div>
         </motion.div>
       </section>

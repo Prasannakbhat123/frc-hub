@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { RefreshCw, Search } from 'lucide-react';
 import {
@@ -167,11 +166,8 @@ export function MarketsPage() {
 
             {!loading && hero && (
               <>
-                {/* Spotlight */}
-                <Link
-                  to={`/inventory/${hero.id}`}
-                  className="fec-panel mb-6 block overflow-hidden rounded-3xl p-6 transition hover:border-line-strong md:p-8"
-                >
+                {/* Spotlight — LIST_ONLY: no detail link */}
+                <div className="fec-panel mb-6 block overflow-hidden rounded-3xl p-6 md:p-8">
                   <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -192,7 +188,7 @@ export function MarketsPage() {
                     </div>
                     <ProbRing value={hero.yesPrice} size={140} />
                   </div>
-                </Link>
+                </div>
 
                 {/* Bento grid */}
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -207,10 +203,8 @@ export function MarketsPage() {
                         ease: easeOut,
                       }}
                     >
-                      <Link
-                        to={`/inventory/${m.id}`}
-                        className="fec-panel-solid group flex h-full flex-col rounded-2xl p-5 transition hover:border-line-strong"
-                      >
+                      {/* LIST_ONLY: no detail link */}
+                      <div className="fec-panel-solid flex h-full flex-col rounded-2xl p-5">
                         <div className="mb-4 flex items-start justify-between gap-3">
                           <div className="flex flex-wrap gap-1.5">
                             <VenueChip venue={m.venue} />
@@ -218,14 +212,14 @@ export function MarketsPage() {
                           </div>
                           <ProbRing value={m.yesPrice} size={64} />
                         </div>
-                        <p className="line-clamp-3 flex-1 text-[14px] font-medium leading-snug text-soft group-hover:text-text">
+                        <p className="line-clamp-3 flex-1 text-[14px] font-medium leading-snug text-soft">
                           {m.title}
                         </p>
                         <div className="mt-4 flex items-center justify-between border-t border-line pt-3 font-mono text-[10px] uppercase tracking-wider text-muted">
                           <span>{m.venue}</span>
                           <span>vol {formatVolume(m.volume)}</span>
                         </div>
-                      </Link>
+                      </div>
                     </motion.div>
                   ))}
                 </div>

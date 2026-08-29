@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-// === LANDING_ONLY: restore inventory nav — uncomment NavLink import usage below ===
-// import { Link, NavLink, useParams, Navigate } from 'react-router-dom';
+import { Link, NavLink, useParams, Navigate } from 'react-router-dom';
 import type { FeedHealth } from '../lib/api';
 import { BrandMark } from './GlowRibbons';
 
@@ -53,29 +51,19 @@ export function AppHeader({ feeds }: { feeds?: FeedHealth[] }) {
         <a href="#venues" className="hover:text-soft">
           Venues
         </a>
-        <a href="#pulse" className="hover:text-soft">
-          Pulse
-        </a>
-        {/* === LANDING_ONLY: restore inventory nav — uncomment below ===
         <NavLink
           to="/inventory"
           className={({ isActive }) => (isActive ? 'text-text' : 'hover:text-soft')}
         >
           Inventory
         </NavLink>
-        === /LANDING_ONLY === */}
       </nav>
 
       <div className="flex items-center gap-4">
         <FeedDot feeds={feeds} />
-        {/* === LANDING_ONLY: restore Explore → /inventory — uncomment below, remove #how link ===
         <Link to="/inventory" className="fec-btn fec-btn-ghost text-[13px] py-2 px-4">
           Explore
         </Link>
-        === /LANDING_ONLY === */}
-        <a href="#how" className="fec-btn fec-btn-ghost text-[13px] py-2 px-4">
-          Explore
-        </a>
       </div>
     </header>
   );
@@ -98,7 +86,6 @@ export function ShellHeader({ feeds, title }: { feeds?: FeedHealth[]; title?: st
       </div>
       <div className="flex items-center gap-3">
         <FeedDot feeds={feeds} />
-        {/* === LANDING_ONLY: restore inventory shell nav — uncomment below ===
         <NavLink
           to="/inventory"
           className={({ isActive }) =>
@@ -107,7 +94,6 @@ export function ShellHeader({ feeds, title }: { feeds?: FeedHealth[]; title?: st
         >
           Inventory
         </NavLink>
-        === /LANDING_ONLY === */}
       </div>
     </header>
   );
@@ -133,9 +119,7 @@ export function SiteFooter() {
   );
 }
 
-// === LANDING_ONLY: restore inventory redirect helper — uncomment below ===
-// export function InventoryIdRedirect() {
-//   const { id } = useParams();
-//   return <Navigate to={`/inventory/${id}`} replace />;
-// }
-// === /LANDING_ONLY ===
+export function InventoryIdRedirect() {
+  const { id } = useParams();
+  return <Navigate to={`/inventory/${id}`} replace />;
+}

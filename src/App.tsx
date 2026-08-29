@@ -1,25 +1,22 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { LandingPage } from './pages/LandingPage'
-// === LANDING_ONLY: restore inventory + backend pages - uncomment block below ===
-// import { Navigate } from 'react-router-dom'
-// import { MarketsPage } from './pages/MarketsPage'
+import { MarketsPage } from './pages/MarketsPage'
+// === LIST_ONLY: detail page off ===
 // import { MarketDetailPage } from './pages/MarketDetailPage'
 // import { InventoryIdRedirect } from './components/Layout'
-// === /LANDING_ONLY ===
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      {/* Catch-all: keep visitors on landing while inventory is offline */}
-      <Route path="*" element={<LandingPage />} />
-
-      {/* === LANDING_ONLY: restore inventory + backend pages - uncomment block below ===
       <Route path="/inventory" element={<MarketsPage />} />
+      {/* === LIST_ONLY: detail page off ===
       <Route path="/inventory/:id" element={<MarketDetailPage />} />
+      */}
+      <Route path="/inventory/:id" element={<Navigate to="/inventory" replace />} />
       <Route path="/markets" element={<Navigate to="/inventory" replace />} />
-      <Route path="/markets/:id" element={<InventoryIdRedirect />} />
-      === /LANDING_ONLY === */}
+      <Route path="/markets/:id" element={<Navigate to="/inventory" replace />} />
+      {/* === LIST_ONLY was: <Route path="/markets/:id" element={<InventoryIdRedirect />} /> */}
     </Routes>
   )
 }
