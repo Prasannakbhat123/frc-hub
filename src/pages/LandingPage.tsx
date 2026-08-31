@@ -223,12 +223,11 @@ export function LandingPage() {
                     <h3 className="text-[22px] font-semibold leading-snug tracking-[-0.02em] text-text md:text-[28px]">
                       {spotlight.title}
                     </h3>
-                    {/* LIST_ONLY: detail off — use inventory list CTA instead */}
                     <Link
-                      to="/inventory"
+                      to={`/inventory/${spotlight.id}`}
                       className="mt-5 inline-flex items-center gap-2 text-[13px] text-muted hover:text-text"
                     >
-                      View in inventory <ArrowRight size={13} />
+                      Open contract <ArrowRight size={13} />
                     </Link>
                   </div>
                   <ProbRing value={spotlight.yesPrice} size={120} />
@@ -244,8 +243,10 @@ export function LandingPage() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 * i, duration: 0.4, ease: easeOut }}
                   >
-                    {/* LIST_ONLY: no detail link */}
-                    <div className="fec-panel-solid flex items-center gap-4 rounded-2xl p-4">
+                    <Link
+                      to={`/inventory/${m.id}`}
+                      className="fec-panel-solid flex items-center gap-4 rounded-2xl p-4 transition hover:border-line-strong"
+                    >
                       <ProbRing value={m.yesPrice} size={72} />
                       <div className="min-w-0 flex-1">
                         <div className="mb-1.5 flex flex-wrap gap-1.5">
@@ -256,7 +257,7 @@ export function LandingPage() {
                           {m.title}
                         </p>
                       </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))}
                 {featured.length < 2 && (
