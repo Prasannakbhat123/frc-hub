@@ -64,6 +64,48 @@ export function getMarket(id: string) {
   }>(`/v1/markets/${id}`);
 }
 
+export type MarketIntelArticle = {
+  title: string;
+  summary: string;
+  url: string;
+  imageUrl?: string | null;
+  source?: string | null;
+  publishedAt?: string | null;
+  relevance: number;
+  lean: 'yes' | 'no' | 'neutral';
+  leanScore: number;
+};
+
+export type MarketIntelTimelineItem = {
+  date: string;
+  event: string;
+};
+
+export type MarketIntelCrossMatch = {
+  id: string;
+  reason: string;
+  confidence: number;
+};
+
+export type MarketIntel = {
+  marketId: string;
+  brief: string;
+  resolution: string;
+  drivers: string[];
+  timeline: MarketIntelTimelineItem[];
+  counterargument: string;
+  marketLean: number;
+  confidence: number;
+  staleRisk: 'low' | 'medium' | 'high';
+  articles: MarketIntelArticle[];
+  crossVenueMatches: MarketIntelCrossMatch[];
+  cached: boolean;
+};
+
+export function getMarketIntel(id: string) {
+  return getJson<MarketIntel>(`/v1/markets/${id}/intel`);
+}
+
 export function getFeedHealth() {
   return getJson<{ feeds: FeedHealth[] }>('/v1/health/feeds');
 }

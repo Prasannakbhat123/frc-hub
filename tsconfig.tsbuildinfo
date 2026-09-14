@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/glowribbons.tsx","./src/components/layout.tsx","./src/components/probring.tsx","./src/components/tickertape.tsx","./src/components/motion.ts","./src/lib/api.ts","./src/pages/landingpage.tsx","./src/pages/marketdetailpage.tsx","./src/pages/marketspage.tsx"],"version":"5.8.3"}
